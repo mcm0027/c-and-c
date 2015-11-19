@@ -1,0 +1,19 @@
+<h1>The country is {{country}}.</h1>
+
+<h1>The capital is {{results.capital}}.</h1>
+
+<h1>The population is {{results.population| number}}.</h1>
+
+<h1>The area is {{results.areaInSqKm| number}} square km.</h1>
+
+<div class="flag-div">
+  <img class="img flag" src="http://www.geonames.org/flags/x/{{results.countryCode | lowercase}}.gif" />
+</div>
+<div class="map-div">
+  <img class="img map" id='myImage' src="http://www.geonames.org/img/country/250/{{results.countryCode}}.png" />
+</div>
+<h1>Neighbors:</h1>
+
+<ul class="list-unstyled">
+  <li ng-repeat="result in resultsNeighbor"><a href="#/countries/{{result.countryName}}/{{result.countryCode}}"> {{result.countryName}}</a></li>
+</ul>

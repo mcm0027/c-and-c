@@ -1,0 +1,54 @@
+table {
+  table-layout:fixed;
+}
+
+.table {
+  width: 80em;
+  margin:auto;
+}
+
+.div-table-content {
+  height:30em;
+  overflow-y:auto;
+  width: 80em;
+  margin: auto;
+}
+
+.flag {
+  width: 30%;
+  max-height: 400px;
+}
+
+.map {
+  max-height: 400px;
+  width: 
+}
+
+#myImg {
+  width: 20%;
+}
+
+.flag-div,
+.map-div {
+  width: 40%;
+  float: left;
+  margin: 3em 5%;
+  border: 1px solid #333;
+  border-radius: 10px;
+  height: 350px;
+  vertical-align: middle;
+}
+
+.img {
+  border-radius: 10px;
+  height: 349px;
+}
+
+.flag {
+  width: 100%;
+}
+
+.map {
+  width: 50%;
+  margin: 0 25%
+}

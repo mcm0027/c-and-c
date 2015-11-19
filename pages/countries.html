@@ -1,0 +1,26 @@
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Country Code</th>
+      <th>Capital</th>
+      <th>Area in km2</th>
+      <th>Population</th>
+      <th>Continent</th>
+    </tr>
+  </thead>
+</table>
+<div class="div-table-content">
+  <table class="table table-condensed">
+    <tbody>
+      <tr ng-repeat="result in results | orderBy: 'name'">
+        <td class="countryLink"><a href="#/countries/{{result.countryName}}/{{result.countryCode}}" >{{result.countryName}}</a></td>
+        <td class="">{{result.countryCode}}</td>
+        <td>{{result.capital}}</td>
+        <td>{{result.areaInSqKm| number}}</td>
+        <td>{{result.population| number}}</td>
+        <td>{{result.continent}}</td>  
+      </tr>
+    </tbody>
+  </table>
+</div>
