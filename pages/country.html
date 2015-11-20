@@ -1,10 +1,12 @@
-<h1>The country is {{country}}.</h1>
+<h2 class="text-center">Info about <strong>{{country}}</strong>.</h2>
 
-<h1>The capital is {{results.capital}}.</h1>
+<h3 class="text-center">The capital is {{infoResults.capital}}.</h3>
 
-<h1>The population is {{results.population| number}}.</h1>
+<h3 class="text-center">The population is {{infoResults.population| number}}.</h3>
 
-<h1>The area is {{results.areaInSqKm| number}} square km.</h1>
+<h3 class="text-center">The area is {{infoResults.areaInSqKm| number}} square km.</h3>
+
+<h3 class="text-center">The population of {{infoResults.capital}} is {{results.population| number}}</h3>
 
 <div class="flag-div">
   <img class="img flag" src="http://www.geonames.org/flags/x/{{results.countryCode | lowercase}}.gif" />
@@ -12,8 +14,9 @@
 <div class="map-div">
   <img class="img map" id='myImage' src="http://www.geonames.org/img/country/250/{{results.countryCode}}.png" />
 </div>
-<h1>Neighbors:</h1>
+<h1 ng-if="resultsNeighbor.length > 0" class="text-center">Neighbors:</h1>
 
-<ul class="list-unstyled">
-  <li ng-repeat="result in resultsNeighbor"><a href="#/countries/{{result.countryName}}/{{result.countryCode}}"> {{result.countryName}}</a></li>
+<ul class="list-unstyled text-center">
+  <li class="link-list" ng-repeat="result in resultsNeighbor"><a href="#/countries/{{result.countryName}}/{{result.countryCode}}"> {{result.countryName}}</a></li>
 </ul>
+<a href="#/"><button class="btn btn-primary home-country">Home</button></a><a href="#/countries"><button class="btn btn-primary browse-country">Browse Countries</button></a> 

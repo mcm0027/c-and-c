@@ -14,7 +14,7 @@
   <table class="table table-condensed">
     <tbody>
       <tr ng-repeat="result in results | orderBy: 'name'">
-        <td class="countryLink"><a href="#/countries/{{result.countryName}}/{{result.countryCode}}" >{{result.countryName}}</a></td>
+        <td class="countryLink"><a href="#/countries/{{result.countryName}}/{{result.countryCode}}">{{result.countryName}}</a></td>
         <td class="">{{result.countryCode}}</td>
         <td>{{result.capital}}</td>
         <td>{{result.areaInSqKm| number}}</td>
@@ -24,3 +24,4 @@
     </tbody>
   </table>
 </div>
+<a href="#/"><button class="btn btn-primary countries-btn">Home</button></a>
