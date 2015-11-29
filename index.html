@@ -5,13 +5,19 @@
   <meta charset='UTF-8'>
   <title>Countries and Capitals</title>
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- build:css ./_assets/combined.css -->
   <link rel="stylesheet" type="text/css" href="style.css">
+  <!-- endbuild-->
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular-resource.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-animate.min.js"></script>
-  <script src="./js/api.js"></script>
+  <!-- build:js ./_assets/combined.js -->
+  <script src="./src/api.js"></script>
+  <script src="./src/dataService.js"></script>
+  <!-- endbuild  -->
 </head>
 <body ng-class="{loading: isLoading}">
   <heading>

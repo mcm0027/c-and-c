@@ -13,7 +13,7 @@
 <div class="div-table-content">
   <table class="table table-condensed">
     <tbody>
-      <tr ng-repeat="result in results | orderBy: 'name'">
+      <tr ng-repeat="result in response | orderBy: 'name'">
         <td class="countryLink"><a href="#/countries/{{result.countryName}}/{{result.countryCode}}">{{result.countryName}}</a></td>
         <td class="">{{result.countryCode}}</td>
         <td>{{result.capital}}</td>

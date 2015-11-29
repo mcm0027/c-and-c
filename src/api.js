@@ -1,6 +1,8 @@
 var ccApi = angular.module("ccApi", ['ngRoute', 'ngAnimate']);
 
 
+//this sets the links and locations for all of the different views
+
 ccApi.config(function ($routeProvider) {
   
   $routeProvider
@@ -16,68 +18,75 @@ ccApi.config(function ($routeProvider) {
   
   .when ('/countries/:country/:code', {
     templateUrl: 'pages/country.html',
-    controller: 'searchController'
+  //  controller: 'searchController'
   });
 });
 
-//ccApi.service(population);
+/*
+ccApi.factory('listService', [ '$http', function ($http) { 
 
 
+  function getCountries() {
+    return $http({
+      url: "http://api.geonames.org/countryInfoJSON?username=mcm0027",
+      cache: true
+
+    })
+
+    .then(function(result) {
+          return result;
+    })};
+    
+  }]);
+*/
         
-  ccApi.controller('listController', ['$http', '$scope', '$q', '$location', '$log', function($http, $scope, $q, $location, $log) {
+  ccApi.controller('listController', ['$scope', '$http', function($scope, $http) {
 
-    var getCountries = function() {
-      
-      var url = "http://api.geonames.org/countryInfoJSON?username=mcm0027";
-
-      $http({
-        url: url,
+    $scope.getCountries = function() {
+      return $http({
+        url: "http://api.geonames.org/countryInfoJSON?username=mcm0027",
         cache: true
 
       })
-      .then(function(result) {
-        $scope.results = result.data.geonames;
-        return $scope.results;
-        console.log($scope.results);
-      })
 
-    };
-  
-    getCountries();
+        .then(function(result) {
+        $scope.response = result.data.geonames;
+        console.log($scope.response);
+      })}();
+
   }]);
-
+  /*
   ccApi.controller('searchController', ['$http', '$scope', '$routeParams', '$log', function($http, $scope, $routeParams, $log) {
 
     
-      var searchCountries = function() {
-      
-        $scope.country = $routeParams.country;
-        $scope.code = $routeParams.code;
+      $scope.searchCountries = function() {
+  
+        var code = "AE";
+        var country = "United Arab Emirates";
         
-        $log.info($scope.country)
+        $scope.country = $routeParams.country || country;
+        $scope.code = $routeParams.code || code;
+        
+        console.log($scope.code);
                                         
 
-        var url = "http://api.geonames.org/searchJSON?username=mcm0027&style=LONG";
-        var request = {
-          country: $scope.code
-        };
+        var url = "http://api.geonames.org/searchJSON?username=mcm0027&style=LONG&maxRows=1&country=" + $scope.code;
+
 
         $http({
-          url: url,
-          params: request,
-          cache: true
+          url: url
 
         })
         .then(function(result) {
          console.log(result.data.geonames[0]);
           $scope.results = result.data.geonames[0];
+          console.log($scope.results);          
           return $scope.results;
           console.log($scope.results);
         })
 
-      };
+      }();
 
-      searchCountries();
     
     var getCountryInfo = function() {
       
@@ -133,3 +142,4 @@ ccApi.config(function ($routeProvider) {
       neighborCountries();
     
    }]);
+*/
