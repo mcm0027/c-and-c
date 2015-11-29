@@ -22,10 +22,23 @@ ccApi.config(function ($routeProvider) {
   });
 });
 
-/*
-ccApi.factory('listService', [ '$http', function ($http) { 
+ccApi.factory('getCountries', [ '$http', '$q', function ($http, $q) { 
 
-
+  var service = {}
+  
+  service.search = function() {
+    var deferred = $q.defer();
+    $http.get("http://api.geonames.org/countryInfoJSON?username=mcm0027")
+      .success(function(data) {
+        deferred.resolve(data);
+      });
+    return deferred.promise;
+  }
+  return service;
+}]);
+  
+  
+  /*
   function getCountries() {
     return $http({
       url: "http://api.geonames.org/countryInfoJSON?username=mcm0027",

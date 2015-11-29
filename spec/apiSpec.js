@@ -6,14 +6,34 @@ var countrySearch = {"totalResultsCount":6041,"geonames":[{"adminCode1":"03","ln
   //var countryInfo = {"geonames":[{"countryName":"United Arab Emirates","currencyCode":"AED","fipsCode":"AE","countryCode":"AE","isoNumeric":"784","north":26.08415985107422,"capital":"Abu Dhabi","continentName":"Asia","areaInSqKm":"82880.0","languages":"ar-AE,fa,en,hi,ur","isoAlpha3":"ARE","continent":"AS","south":22.633329391479492,"east":56.38166046142578,"geonameId":290557,"west":51.58332824707031,"population":"4975593"}]};
 
   describe('getCountries service', function() {
-    it ('should return counties info')
-      var service = {
-        getCountries: function() {
-          return countriesSearch;
-        }
-      };
-expect(service.getCountries()).toEqual(countriesSearch)
-})
+    it ('should return counties info', function() {
+      var getCountries = {};
+      var $httpBackend;
+      
+      angular.mock.module('ccApi');
+      
+      angular.mock.inject(function(_getCountries_, _$httpBackend_) {
+        getCountries = _getCountries_;
+        $httpBackend = _$httpBackend_;
+      })
+      var response;
+      
+      $httpBackend.when('GET', 'http://api.geonames.org/countryInfoJSON?username=mcm0027')
+        .respond(200, countriesSearch);
+      
+      getCountries.search()
+        .then(function(data) {
+          response = data;
+      });
+      
+      $httpBackend.flush();
+      
+      expect(response).toEqual(countriesSearch);
+          
+    });
+  });
+    
+
   
  /* var $httpBackend;
   var $controller;
