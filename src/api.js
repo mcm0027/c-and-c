@@ -3,7 +3,7 @@ var ccApi = angular.module("ccApi", ['ngRoute', 'ngAnimate']);
 
 //this sets the links and locations for all of the different views
 
-ccApi.config(function ($routeProvider) {
+ccApi.config(['$routeProvider', function ($routeProvider) {
   
   $routeProvider
   
@@ -20,7 +20,7 @@ ccApi.config(function ($routeProvider) {
     templateUrl: 'pages/country.html',
     controller: 'searchController'
   });
-});
+}]);
 
   ccApi.controller('listController', ['$scope', 'getCountries', function($scope, getCountries) {
     
