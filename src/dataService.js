@@ -8,9 +8,11 @@ ccApi.factory('getCountries', [ '$http', '$q', function ($http, $q) {
       .success(function(data) {
       deferred.resolve(data);
     });
+
     return deferred.promise;
   }
   return service;
+
 }]);
 
 ccApi.factory('countrySearch', [ '$http', '$q', function ($http, $q) { 

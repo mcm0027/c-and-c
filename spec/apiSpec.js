@@ -4,6 +4,8 @@ var countriesSearch = {"geonames":[{"continent":"EU","capital":"Andorra la Vella
 
 var countryInfoVar = {"geonames":[{"countryName":"United Arab Emirates","currencyCode":"AED","fipsCode":"AE","countryCode":"AE","isoNumeric":"784","north":26.08415985107422,"capital":"Abu Dhabi","continentName":"Asia","areaInSqKm":"82880.0","languages":"ar-AE,fa,en,hi,ur","isoAlpha3":"ARE","continent":"AS","south":22.633329391479492,"east":56.38166046142578,"geonameId":290557,"west":51.58332824707031,"population":"4975593"}]};
 
+var promiseString = '{"$$state":{"status":0}}';
+
 var countryNeighbors = {
   totalResultsCount: 2,
   geonames: [
@@ -43,154 +45,252 @@ var countryNeighbors = {
     }
   ]
 }
-  describe('dataService', function() {
-    var getCountries = {};
-    var $httpBackend;
-    var countrySearch = {};
-    var countryInfo = {};
-    var neighborCountries = {};
-
-
-    beforeEach(angular.mock.module('ccApi'));
-    beforeEach(     
-      angular.mock.inject(function(_getCountries_, _$httpBackend_, _countrySearch_, _countryInfo_, _neighborCountries_) {
-        getCountries = _getCountries_;
-        $httpBackend = _$httpBackend_;
-        countrySearch = _countrySearch_;
-        countryInfo = _countryInfo_;
-        neighborCountries = _neighborCountries_;
-      }));
-    
-    it ('should return counties info', function() {
-      var response;
-      
-      $httpBackend.when('GET', 'http://api.geonames.org/countryInfoJSON?username=mcm0027')
-        .respond(200, countriesSearch);
-      
-      getCountries.search()
-        .then(function(data) {
-          response = data;
-      });
-      
-      $httpBackend.flush();
-      console.log(response);
-      expect(response).toEqual(countriesSearch);
-          
-    });
-    
-    it ('should return country search', function() {
-      var response;
-
-      $httpBackend.when('GET', "http://api.geonames.org/searchJSON?username=mcm0027&style=LONG&maxRows=1&country=AE")
-        .respond(200, countrySearchVar);
-
-      countrySearch.search('AE')
-        .then(function(data) {
-        response = data;
-      });
-
-      $httpBackend.flush();
-      console.log(response);
-      expect(response).toEqual(countrySearchVar);
-
-    });
-    
-    it ('should return country info', function() {
-      var response;
-
-      $httpBackend.when('GET', "http://api.geonames.org/countryInfoJSON?username=mcm0027&country=AE")
-        .respond(200, countryInfoVar);
-
-      countryInfo.search('AE')
-        .then(function(data) {
-        response = data;
-      });
-
-      $httpBackend.flush();
-      console.log(response);
-      expect(response).toEqual(countryInfoVar);
-
-    });
-    
-    it ('should return country neighbors', function() {
-      var response;
-
-      $httpBackend.when('GET', "http://api.geonames.org/neighboursJSON?username=mcm0027&country=AE")
-        .respond(200, countryNeighbors);
-
-      neighborCountries.search('AE')
-        .then(function(data) {
-        response = data;
-      });
-
-      $httpBackend.flush();
-      console.log(response);
-      expect(response).toEqual(countryNeighbors);
-
-    });
-  });
-
-describe("RouteConfig", function() {
-  
-  var $location;
-  var $rootScope;
+describe('dataService', function() {
+  var getCountries = {};
   var $httpBackend;
-  var $route;
-  
-  beforeEach(angular.mock.module("ccApi"));
-  beforeEach(angular.mock.inject(function(_$location_, _$rootScope_, _$httpBackend_, _$route_) {
-    $location = _$location_;
-    $rootScope = _$rootScope_;
-    $httpBackend = _$httpBackend_;
-    $route = _$route_;
-  }));
+  var countrySearch = {};
+  var countryInfo = {};
+  var neighborCountries = {};
 
-  describe("/home route", function() {
-    it('should load the template', function() { 
 
-      $httpBackend.whenGET('pages/home.html').respond('...');
+  beforeEach(angular.mock.module('ccApi'));
+  beforeEach(     
+    angular.mock.inject(function(_getCountries_, _$httpBackend_, _countrySearch_, _countryInfo_, _neighborCountries_) {
+      getCountries = _getCountries_;
+      $httpBackend = _$httpBackend_;
+      countrySearch = _countrySearch_;
+      countryInfo = _countryInfo_;
+      neighborCountries = _neighborCountries_;
+    }));
+
+  it ('should return a promise for getCountries', function() {
+    var response;
+
+    $httpBackend.when('GET', 'http://api.geonames.org/countryInfoJSON?username=mcm0027')
+      .respond(200, promiseString);
+
+    response = JSON.stringify(getCountries.search());
+
+
+    $httpBackend.flush();
+    expect(response).toEqual(promiseString);
       
-      
-      $rootScope.$apply(function() {
-        $location.path('/');
-      });
-
-      expect($route.current.loadedTemplateUrl).toBe("pages/home.html");
-      $httpBackend.flush();
-      $httpBackend.verifyNoOutstandingRequest();
-      $httpBackend.verifyNoOutstandingExpectation();
-    });
   });
 
+  it ('should return a promise for country search', function() {
+    var response;
 
-  describe("/countries route", function() {
-    it('should load the template and controller', function() {
-      $httpBackend.whenGET('pages/countries.html').respond('...');
+    $httpBackend.when('GET', "http://api.geonames.org/searchJSON?username=mcm0027&style=LONG&maxRows=1&country=AE")
+      .respond(200, promiseString);
 
-      $rootScope.$apply(function() {
-        $location.path('/countries');
-      });
-      expect($route.current.controller).toBe("listController");
-      expect($route.current.loadedTemplateUrl).toBe("pages/countries.html");
-      $httpBackend.flush();
-      $httpBackend.verifyNoOutstandingRequest();
-      $httpBackend.verifyNoOutstandingExpectation();
-    });
+    response = JSON.stringify(countrySearch.search('AE'));
+
+
+    $httpBackend.flush();
+    expect(response).toEqual(promiseString);
+
   });
-  
-  describe("/country route", function() {
-    it('should load the template and controller', function() {
-      $httpBackend.whenGET('pages/country.html').respond('...');
 
-      $rootScope.$apply(function() {
-        $location.path('/countries/:country/:code');
-      });
-      expect($route.current.controller).toBe("searchController");
-      expect($route.current.loadedTemplateUrl).toBe("pages/country.html");
-      $httpBackend.flush();
-      $httpBackend.verifyNoOutstandingRequest();
-      $httpBackend.verifyNoOutstandingExpectation();
-    });
+  it ('should return a promise for country info', function() {
+    var response;
+
+    $httpBackend.when('GET', "http://api.geonames.org/countryInfoJSON?username=mcm0027&country=AE")
+      .respond(200, promiseString);
+
+    response = JSON.stringify(countryInfo.search('AE'));
+
+
+    $httpBackend.flush();
+    expect(response).toEqual(promiseString);
+
+  });
+
+  it ('should return a promise for country neighbors', function() {
+    var response;
+
+    $httpBackend.when('GET', "http://api.geonames.org/neighboursJSON?username=mcm0027&country=AE")
+      .respond(200, promiseString);
+
+    response = JSON.stringify(neighborCountries.search('AE'));
+
+    $httpBackend.flush();
+
+    expect(response).toEqual(promiseString);
+
   });
 });
 
+describe("RouteConfig", function() {
+
+var $location;
+var $rootScope;
+var $httpBackend;
+var $route;
+
+beforeEach(angular.mock.module("ccApi"));
+beforeEach(angular.mock.inject(function(_$location_, _$rootScope_, _$httpBackend_, _$route_) {
+  $location = _$location_;
+  $rootScope = _$rootScope_;
+  $httpBackend = _$httpBackend_;
+  $route = _$route_;
+}));
+
+describe("/home route", function() {
+  it('should load the template', function() { 
+
+    $httpBackend.whenGET('pages/home.html').respond('...');
+
+
+    $rootScope.$apply(function() {
+      $location.path('/');
+    });
+
+    expect($route.current.loadedTemplateUrl).toBe("pages/home.html");
+    $httpBackend.flush();
+    $httpBackend.verifyNoOutstandingRequest();
+    $httpBackend.verifyNoOutstandingExpectation();
+  });
+});
+
+
+describe("/countries route", function() {
+  it('should load the template and controller', function() {
+    $httpBackend.whenGET('pages/countries.html').respond('...');
+
+    $rootScope.$apply(function() {
+      $location.path('/countries');
+    });
+    expect($route.current.controller).toBe("listController");
+    expect($route.current.loadedTemplateUrl).toBe("pages/countries.html");
+    $httpBackend.flush();
+    $httpBackend.verifyNoOutstandingRequest();
+    $httpBackend.verifyNoOutstandingExpectation();
+  });
+});
+
+describe("/country route", function() {
+  it('should load the template and controller', function() {
+    $httpBackend.whenGET('pages/country.html').respond('...');
+
+    $rootScope.$apply(function() {
+      $location.path('/countries/:country/:code');
+    });
+    expect($route.current.controller).toBe("searchController");
+    expect($route.current.loadedTemplateUrl).toBe("pages/country.html");
+    $httpBackend.flush();
+    $httpBackend.verifyNoOutstandingRequest();
+    $httpBackend.verifyNoOutstandingExpectation();
+  });
+});
+});
+
+
+describe('controllers', function() {
+  var getCountries = {};
+  var $httpBackend;
+  var countrySearch = {};
+  var countryInfo = {};
+  var neighborCountries = {};
+  var controller;
+  var scope;
+
+
+  beforeEach(angular.mock.module('ccApi'));
+  beforeEach(     
+    angular.mock.inject(function(_getCountries_, _$httpBackend_, _countrySearch_, _countryInfo_, _neighborCountries_) {
+      getCountries = _getCountries_;
+      $httpBackend = _$httpBackend_;
+      countrySearch = _countrySearch_;
+      countryInfo = _countryInfo_;
+      neighborCountries = _neighborCountries_;
+    }));
+  
+  describe('listController', function () {
+    var ctrl, scope;
+    beforeEach(inject(function($controller, $rootScope) {
+      scope = $rootScope.$new();
+      ctrl = $controller('listController', {
+        $scope : scope
+      });
+    }));
+ 
+  
+    it ('should return getCountries countries', function() {
+      var response;
+
+      $httpBackend.when('GET', 'http://api.geonames.org/countryInfoJSON?username=mcm0027')
+        .respond(200, countriesSearch);
+
+    getCountries.search()
+      .then(function(data) {
+        response = data;
+      });
+
+      $httpBackend.flush();
+
+      expect(response).toEqual(countriesSearch);
+        
+    });
+  });
+  
+  describe('searchController', function () {
+    var ctrl, scope;
+    beforeEach(inject(function($controller, $rootScope) {
+      scope = $rootScope.$new();
+      ctrl = $controller('searchController', {
+        $scope : scope
+      });
+    }));
+
+});
+  it ('should return country search', function() {
+    var response;
+
+    $httpBackend.when('GET', "http://api.geonames.org/searchJSON?username=mcm0027&style=LONG&maxRows=1&country=AE")
+      .respond(200, countrySearchVar);
+
+    countrySearch.search('AE')
+      .then(function(data) {
+      response = data;
+    });
+
+    $httpBackend.flush();
+
+    expect(response).toEqual(countrySearchVar);
+
+  });
+
+  it ('should return country info', function() {
+    var response;
+
+    $httpBackend.when('GET', "http://api.geonames.org/countryInfoJSON?username=mcm0027&country=AE")
+      .respond(200, countryInfoVar);
+
+    countryInfo.search('AE')
+      .then(function(data) {
+      response = data;
+    });
+
+    $httpBackend.flush();
+
+    expect(response).toEqual(countryInfoVar);
+
+  });
+
+  it ('should return country neighbors', function() {
+    var response;
+
+    $httpBackend.when('GET', "http://api.geonames.org/neighboursJSON?username=mcm0027&country=AE")
+      .respond(200, countryNeighbors);
+
+    neighborCountries.search('AE')
+      .then(function(data) {
+      response = data;
+    });
+
+    $httpBackend.flush();
+
+    expect(response).toEqual(countryNeighbors);
+
+  });
+});

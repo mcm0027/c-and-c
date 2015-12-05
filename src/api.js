@@ -24,12 +24,14 @@ ccApi.config(['$routeProvider', function ($routeProvider) {
 
   ccApi.controller('listController', ['$scope', 'getCountries', function($scope, getCountries) {
     
-    getCountries.search().then(passCountries);
+    getCountries.search().then(function(data) {
+      $scope.response = data.geonames;
+    });
 
-    function passCountries(data) {
+   /* function passCountries(data) {
       $scope.response = data.geonames;
       console.log($scope.response);
-    }
+    }*/
   }]);
 
 ccApi.controller('searchController', ['$scope', '$routeParams', 'countrySearch', 'countryInfo', 'neighborCountries', function($scope, $routeParams, countrySearch, countryInfo, neighborCountries) {
